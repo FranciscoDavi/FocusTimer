@@ -1,3 +1,4 @@
+using UI.pomodoro;
 
 namespace services.Pomodoro
 {
@@ -8,50 +9,49 @@ namespace services.Pomodoro
         private int numeroSessoes;
         private  int segundosTotais;
 
+        private UIPomodoro _UIPomodoro;
+
         public Pomodoro(int t_estudo, int t_pausa, int n_sessoes)
         {
+            _UIPomodoro = new UIPomodoro();
+
             tempoEstudo = t_estudo;
             tempoPausa = t_pausa;
             numeroSessoes = n_sessoes;
 
             for(int i = 0; i < numeroSessoes; i++)
             {
-                Console.Clear();
-                Console.WriteLine($"Sessão {i} de {numeroSessoes} - Estudo");
-
                 segundosTotais = tempoEstudo * 60;
-                ContaTempo("Tempo restante de estudo: ");
+                //
+                _UIPomodoro.ShowFocusScreen();
+                ContaTempo();
 
                 if(i < numeroSessoes)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Hora da Pausa!");
-
+                    _UIPomodoro.ShowRestScreen();
                     //Reseta para o tempo para o de pausa
                     segundosTotais = tempoPausa * 60;
-
-                    ContaTempo("Tempo restante de pausa: ");
+                    ContaTempo();
                 }
             }
 
-            Console.WriteLine("🎉 Pomodoro finalizado!");
-            Console.Beep();
+            _UIPomodoro.ShowEndScreen(); 
         }
 
-        private void ContaTempo(string msgText)
+        private void ContaTempo()
         {
             while(segundosTotais > 0)
             {
                 int minutosRestantes  = segundosTotais / 60;
                 int segundosRestantes = segundosTotais % 60;
 
-                Console.Clear();
-                Console.WriteLine(msgText);
-                Console.WriteLine($"{minutosRestantes:D2}: {segundosRestantes:D2}");
-
+                _UIPomodoro.ShowTimer(minutosRestantes, segundosRestantes);
+                
                 Thread.Sleep(1000);
                 segundosTotais--;
             }
+
         }
+
     }
 }

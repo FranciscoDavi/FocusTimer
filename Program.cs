@@ -1,18 +1,15 @@
 ﻿using services.Pomodoro;
+using UI.pomodoro;
+
 class Program
 {
     static void Main()
     {
-        Console.WriteLine("Digite seu periodo de estudo: ");
-        int t_estudo = int.Parse(Console.ReadLine());
-        Console.WriteLine("Digite seu periodo de pausa: ");
-        int t_pausa = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Digite o numero de sessões: ");
-        int n_sessoes = int.Parse(Console.ReadLine());
+        UIPomodoro p = new UIPomodoro();
+        p.Start();
         
-        Pomodoro c = new Pomodoro(t_estudo, t_pausa, n_sessoes);
+        int[] data =  p.ShowConsoleInputs();
+
+        Pomodoro c = new Pomodoro(data[0], data[1], data[2]); 
     }
-
-
 }
